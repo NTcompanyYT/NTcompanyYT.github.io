@@ -1,10 +1,380 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>NTcompanyYT's Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTcompanyYT · Web 1.0 Vibe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,0,128,0.15) 2px, rgba(255,0,128,0.15) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,255,255,0.15) 2px, rgba(0,255,255,0.15) 4px);
+            background-size: 40px 40px;
+            animation: gridDrift 10s linear infinite;
+        }
+        @keyframes gridDrift {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 0 40px, 40px 0; }
+        }
+        .sun-overlay {
+            position: fixed;
+            bottom: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 60vh;
+            background: radial-gradient(ellipse at center, rgba(255,0,128,0.25) 0%, rgba(255,204,0,0.1) 40%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background: rgba(10,10,30,0.85);
+            backdrop-filter: blur(8px);
+            border: 2px solid #ff0080;
+            box-shadow: 0 0 20px #ff0080, 0 0 40px #0ff, inset 0 0 20px rgba(0,255,255,0.2);
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .marquee-box {
+            background: #000;
+            border: 2px ridge #ff00ff;
+            padding: 8px;
+            text-align: center;
+        }
+        marquee {
+            font-size: 1.3rem;
+            color: #ffff00;
+            text-shadow: 0 0 8px #ff0080, 0 0 15px #0ff;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* HEADER area – balanced layout */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .web1-badge {
+            background: #000033;
+            border: 3px double #00ffff;
+            padding: 10px 20px;
+            text-align: center;
+            color: #00ffcc;
+            font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+            font-size: 1.2rem;
+            box-shadow: 0 0 12px #00ffff;
+        }
+        .web1-badge img {
+            display: block;
+            margin: 5px auto;
+            width: 88px;
+            height: 31px;
+            flex: 1;
+        }
+
+        .ascii-title {
+            font-family: 'Share Tech Mono', monospace;
+            color: #33ff33;
+            text-shadow: 0 0 5px #33ff33;
+            font-size: 0.5rem;
+            line-height: 1.1;
+            white-space: pre;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 8px;
+            border: 1px solid #33ff33;
+            border-radius: 2px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .hit-counter {
+            font-family: 'Comic Neue', cursive;
+            color: #ff0066;
+            background: #000;
+            border: 2px inset #ff0080;
+            padding: 5px 12px;
+            text-shadow: 0 0 6px #ff0080;
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: 0 0 12px #ff0080;
+            flex: 1;
+        }
+
+        .card-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .card {
+            flex: 1 1 45%;
+            background: rgba(0,0,30,0.8);
+            border: 2px ridge #ff00ff;
+            padding: 15px;
+            box-shadow: 0 0 10px #ff00ff;
+            font-family: 'Comic Neue', cursive;
+            color: #00ffff;
+        }
+        .card h2 {
+            text-decoration: underline wavy #ff0080;
+            margin-bottom: 10px;
+            font-size: 1.6rem;
+            color: #ffcc00;
+            text-shadow: 0 0 5px #ff0080;
+        }
+        .card p, .card ul {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+        .card ul {
+            list-style-type: "💾 ";
+            padding-left: 20px;
+        }
+        .card a {
+            color: #0ff;
+            text-decoration: underline;
+        }
+        .card a:hover {
+            background: #ff0080;
+            color: #000;
+        }
+
+        .terminal-card {
+            flex: 1 1 45%;
+            background: #000;
+            border: 2px solid #33ff33;
+            box-shadow: 0 0 15px #33ff33;
+            padding: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            color: #33ff33;
+            font-size: 0.9rem;
+            position: relative;
+        }
+        .terminal-card::before {
+            content: "● ● ●";
+            position: absolute;
+            top: 8px;
+            left: 15px;
+            color: #ff0080;
+            letter-spacing: 5px;
+            font-size: 1rem;
+        }
+        .terminal-card .prompt {
+            margin-top: 20px;
+            white-space: pre-line;
+            text-align: left;
+            word-break: break-word;
+            padding-left: 5px;
+        }
+        .terminal-card .cursor {
+            display: inline-block;
+            background: #33ff33;
+            width: 8px;
+            height: 16px;
+            vertical-align: middle;
+            animation: blink 0.8s step-end infinite;
+        }
+
+        .guestbook-box {
+            flex: 1 1 100%;
+            border: 2px dashed #ffff00;
+            padding: 12px;
+            background: rgba(0,0,0,0.7);
+            text-align: center;
+            color: #ffff00;
+            font-family: 'Comic Neue', cursive;
+            box-shadow: 0 0 8px #ffff00;
+        }
+        .guestbook-box a {
+            color: #ffff00;
+            margin: 0 10px;
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px dotted #0ff;
+            padding-top: 15px;
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        .footer .webring {
+            font-family: 'Comic Neue', cursive;
+            text-align: right;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 700px) {
+            .card-row { flex-direction: column; }
+            .header { flex-direction: column; text-align: center; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Website!</h1>
-    <p>This is hosted for free on GitHub Pages.</p>
+<div class="grid-bg"></div>
+<div class="sun-overlay"></div>
+
+<div class="container">
+    <!-- MARQUEE -->
+    <div class="marquee-box">
+        <marquee behavior="scroll" direction="left" scrollamount="4">
+            ✨★·.·´¯`·.·★  WELCOME TO MY DIGITAL SANCTUARY  ★·.·´¯`·.·★  —  BEST VIEWED IN 800x600 WITH NETSCAPE NAVIGATOR  —  UNDER CONSTRUCTION FOREVER  —  LAST UPDATED: <span id="lastmod">RECENTLY</span>
+        </marquee>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="web1-badge">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='31'%3E%3Crect width='88' height='31' fill='%23000000'/%3E%3Ctext x='2' y='18' fill='%23ff0080' font-family='Comic Sans MS, cursive' font-size='10'%3E⚠️ UNDER CONSTRUCTION%3C/text%3E%3C/svg%3E" alt="Under Construction">
+            <span>This Site is<br>✨ Forever Young ✨</span>
+        </div>
+
+        <!-- COMPACT ASCII -->
+        <div class="ascii-title">
+            <pre>
+███╗   ██╗████████╗
+████╗  ██║╚══██╔══╝
+██╔██╗ ██║   ██║   
+██║╚██╗██║   ██║   
+██║ ╚████║   ██║   
+╚═╝  ╚═══╝   ╚═╝   
+            </pre>
+        </div>
+
+        <div class="hit-counter">
+            Visitors:<br>
+            <span style="font-size:1.8rem; font-weight:bold;" id="visitor-count">0000</span><br>
+            <span style="font-size:0.7rem;">🕶️ since 1999</span>
+        </div>
+    </div>
+
+    <!-- CONTENT CARDS -->
+    <div class="card-row">
+        <div class="card">
+            <h2>📟 About Me</h2>
+            <p>
+                Greetings, traveler! I'm <strong>NT</strong>, a cyber explorer
+                wandering through AI, code, and retro vibes. 
+                This is my corner of the web — a blend of old‑school charm, neon dreams,
+                and a live terminal.
+            </p>
+            <p>
+                When I'm not tinkering with prototypes, I'm
+                probably <em>[Forging Ideas]</em>.
+            </p>
+            <hr style="border-color:#ff0080;">
+            <p><strong>Quick Links:</strong></p>
+            <ul>
+                <li><a href="https://github.com/NTcompanyYT/playground" target="_blank">🧪 My Playground</a></li>
+                <li><a href="https://github.com/NTcompanyYT" target="_blank">🐙 GitHub Profile</a></li>
+                <li><a href="mailto:you@example.com">📧 Email me</a></li>
+            </ul>
+        </div>
+
+        <div class="terminal-card">
+            <div class="prompt">
+                <span style="color:#ff0080;">guest@ntcompanyyt</span>:<span style="color:#0ff;">~</span>$ cat welcome.txt<br>
+                -------------------------------------------<br>
+                Welcome to the NTcompanyYT BBS terminal.<br>
+                Type 'help' for commands (or read on...).<br>
+                -------------------------------------------<br><br>
+                <span style="color:#ff0080;">guest@ntcompanyyt</span>:<span style="color:#0ff;">~</span>$ ./status<br>
+                System: online | Last commit: <span id="last-commit">just now</span><br>
+                Session uptime: <span id="uptime">0s</span> | Caffeine: high<br><br>
+                <span style="color:#ff0080;">guest@ntcompanyyt</span>:<span style="color:#0ff;">~</span>$ <span class="cursor"></span>
+            </div>
+            <p style="margin-top:15px; font-size:0.8rem; color:#33ff33;">
+                <em>All systems nominal. Enjoy your stay.</em>
+            </p>
+        </div>
+    </div>
+
+    <!-- GUESTBOOK (decorative only) -->
+    <div class="guestbook-box">
+        <h3 style="color:#ffcc00; text-decoration:underline;">✏️ Sign My Guestbook</h3>
+        <p>
+            [ <a href="#">View Entries</a> | <a href="#">Sign Guestbook</a> | <a href="#">Random Entry</a> ]
+        </p>
+        <p style="font-size:0.8rem;">
+            Leave a comment! Use <blink style="color:red;">HTML</blink> if you dare.
+        </p>
+        <p style="font-size:0.7rem; color:#aaa;">
+            (This guestbook is decorative.)
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div>
+            <span style="color:#0ff;">&copy; 2026 NT</span> —
+            Crafted with <span style="color:#0088ff;">&#x1f499;</span> and a text editor
+        </div>
+        <div class="webring">
+            🕸️ Webring: [ <a href="#">Prev</a> | <a href="#">Next</a> | <a href="#">Random</a> ]
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+    // Update last modified date in marquee
+    const lastMod = new Date(document.lastModified);
+    document.getElementById('lastmod').textContent = lastMod.toLocaleDateString();
+
+    // Live session uptime timer
+    const uptimeEl = document.getElementById('uptime');
+    const startTime = Date.now();
+    function updateUptime() {
+        const seconds = Math.floor((Date.now() - startTime) / 1000);
+        uptimeEl.textContent = seconds + 's';
+    }
+    updateUptime();
+    setInterval(updateUptime, 1000);
+
+    // Last commit dummy (replace with dynamic data if desired)
+    document.getElementById('last-commit').textContent = new Date().toLocaleDateString();
+    
+    // Random visitor count between 1,000 and 9,999
+    const fakeVisitors = Math.floor(Math.random() * 9000) + 1000;
+    document.getElementById("visitor-count").textContent = fakeVisitors;
+</script>
 </body>
 </html>
