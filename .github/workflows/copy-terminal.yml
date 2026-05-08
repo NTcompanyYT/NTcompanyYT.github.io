@@ -3,7 +3,7 @@ name: Copy Terminal from Playground
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:   # lets you run it manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   copy-terminal:
@@ -27,14 +27,16 @@ jobs:
         run: |
           mkdir -p terminal
           cp playground-repo/terminal/terminal.html terminal/index.html
-          # optional: copy readme so the folder isn't empty if you want
-          cp playground-repo/terminal/README.md terminal/README.md
+          cp playground-repo/terminal/README.md terminal/README.md   # optional
 
-      # 4. Commit and push back to the website repo
-      - name: Commit and push
+      # 4. Commit and push - NOW WITH TOKEN
+      - name: Commit and push changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
           git add terminal/
           if git diff --cached --quiet; then
             echo "No changes to commit."
